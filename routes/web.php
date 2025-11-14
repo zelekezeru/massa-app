@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SalesLocationController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -14,7 +21,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -29,4 +36,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::resource('sales', SalesController::class);
+Route::resource('customers', CustomerController::class);
+Route::resource('products', ProductController::class);
+Route::resource('sales-locations', SalesLocationController::class);
+Route::resource('users', UserController::class);
+Route::resource('roles', RoleController::class);
+Route::resource('permissions', PermissionController::class);
+
 
