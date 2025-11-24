@@ -23,10 +23,19 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Application;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 require __DIR__.'/auth.php';
 
 // Public routes
+Route::get('/welcome', function () {
+    return Inertia::render('MainWebsite/Index', [
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('home');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'laravelVersion' => Application::VERSION,
@@ -43,10 +52,10 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])
+Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register');
 
-Route::post('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])
+Route::post('/register', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
@@ -57,11 +66,11 @@ Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')
     ->name('password.email');
 
-Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\NewPasswordController::class, 'create'])
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
     ->middleware('guest')
     ->name('password.reset');
 
-Route::post('/reset-password', [App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.update');
 

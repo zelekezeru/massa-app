@@ -31,6 +31,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $role = 3;
         $user = $this->register($request, $role);
 
         Auth::login($user);
