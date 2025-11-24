@@ -9,8 +9,9 @@ return new class extends Migration {
     Schema::create('sales_locations', function (Blueprint $table){
       $table->id();
       $table->string('name');
-      $table->string('code')->nullable();
-      $table->text('notes')->nullable();
+      $table->string('address')->nullable();
+      $table->string('city')->nullable();
+      $table->string('state')->nullable();
       $table->timestamps();
     });
   }

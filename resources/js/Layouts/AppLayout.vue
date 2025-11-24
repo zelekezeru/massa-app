@@ -2,8 +2,9 @@
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
+import { ArrowPathIcon } from '@heroicons/vue/24/solid';
 import { router } from "@inertiajs/vue3";
-import route from 'ziggy-js';
+import { route } from 'ziggy-js';
 
 
 // Logout
@@ -22,11 +23,7 @@ const changeRole = (roleName) => {
 
 <template>
     <Head>
-        <link rel="stylesheet" href="/kaiadmin/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/kaiadmin/css/kaiadmin.min.css" />
-        <script src="/kaiadmin/js/plugin/jquery/jquery-3.6.0.min.js"></script>
-        <script src="/kaiadmin/js/plugin/bootstrap/bootstrap.min.js"></script>
-        <script src="/kaiadmin/js/kaiadmin.min.js"></script>
+        
     </Head>
     <div :class="{ dark: darkMode }">
         <div

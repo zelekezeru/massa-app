@@ -11,7 +11,6 @@ return new class extends Migration {
             $table->string('invoice_no')->unique();
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('sales_agent_id')->nullable()->constrained('users');
-            $table->foreignId('sales_location_id')->nullable()->constrained('sales_locations');
             $table->enum('status', ['draft','confirmed','paid','partially_paid','cancelled'])->default('draft');
             $table->date('invoice_date')->nullable();
             $table->decimal('sub_total', 12,2)->default(0);

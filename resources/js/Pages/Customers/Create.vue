@@ -1,22 +1,15 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import CustomerForm from './form.vue';
+import { Head } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
+const props = defineProps({ salesLocations: Array, salesAgents: Array});
+</script>
+
 <template>
-  <div>
-    <h1>Add Customer</h1>
-    <form @submit.prevent="submit">
-      <label>Name</label>
-      <input v-model="form.name" required />
-      <label>Email</label>
-      <input v-model="form.email" type="email" />
-      <label>Phone</label>
-      <input v-model="form.phone" />
-      <button type="submit">Save</button>
-    </form>
-  </div>
+  <Head title="Create Customer" />
+  <AuthenticatedLayout>
+    <CustomerForm :salesLocations="salesLocations", :salesAgents="salesAgents" />
+  </AuthenticatedLayout>
 </template>
 
-<script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
-const form = useForm({ name: '', email: '', phone: '' });
-function submit() {
-  form.post(route('customers.store'));
-}
-</script>

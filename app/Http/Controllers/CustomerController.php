@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\SalesLocation;
+use App\Models\SalesAgent;
 
 class CustomerController extends Controller
 {
@@ -24,7 +26,13 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Customers/Create');
+        $salesLocations = SalesLocation::all();
+        $salesAgents = SalesAgent::with(['salesLocation', 'user'])->get();
+
+        return Inertia::render('Customers/Create', [
+            'salesLocations' => $salesLocations,
+            'salesAgents' => $salesAgents
+        ]);
     }
 
     /**
@@ -57,8 +65,13 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        $salesLocations = SalesLocation::all();
+        $salesAgents = SalesAgent::with(['salesLocation', 'user'])->get();
+        
         return Inertia::render('Customers/Edit', [
-            'customer' => $customer
+            'customer' => $customer,
+            'salesLocations' => $salesLocations,
+            'salesAgents' => $salesAgents
         ]);
     }
 

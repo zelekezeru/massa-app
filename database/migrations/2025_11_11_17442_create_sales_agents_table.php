@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('sales_agents', function (Blueprint $table) {
             $table->id();
+            $table->string('position')->nullable();
+            $table->foreignId('sales_location_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

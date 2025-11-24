@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->text('address')->nullable();
             $table->enum('type', ['retail','wholesale','hotel','other'])->default('retail');
             $table->decimal('credit_limit', 12,2)->default(0);
+            $table->foreignId('sales_location_id')->nullable()->constrained('sales_locations');
             $table->timestamps();
         });
     }

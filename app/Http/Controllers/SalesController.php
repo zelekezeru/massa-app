@@ -10,7 +10,8 @@ use Inertia\Inertia;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
-use App\Models\SaleLocation;
+use App\Models\SalesLocation;
+use App\Models\SalesAgent;
 
 
 class SalesController extends Controller
@@ -31,11 +32,12 @@ class SalesController extends Controller
      */
     public function create()
     {
+        $agents = SalesAgent::with(['salesLocation', 'user'])->get();
+
         return Inertia::render('Sales/Create', [
             'customers' => Customer::all(),
             'products' => Product::all(),
-            'agents' => User::all(),
-            'locations' => SalesLocation::all(),
+            'agents' => $agents,
         ]);
     }
 
@@ -47,7 +49,6 @@ class SalesController extends Controller
         $data = $request->validate([
             'customer_id'=>'required|exists:customers,id',
             'sales_agent_id'=>'nullable|exists:users,id',
-            'sales_location_id'=>'nullable|exists:sales_locations,id',
             'invoice_date'=>'required|date',
             'items'=>'required|array|min:1',
             'items.*.product_id'=>'required|exists:products,id',
@@ -63,7 +64,6 @@ class SalesController extends Controller
                 'invoice_no' => $this->generateInvoiceNumber(),
                 'customer_id' => $data['customer_id'],
                 'sales_agent_id' => $data['sales_agent_id'] ?? null,
-                'sales_location_id' => $data['sales_location_id'] ?? null,
                 'status' => 'draft',
                 'invoice_date' => $data['invoice_date'],
                 'discount' => $data['discount'] ?? 0
@@ -113,12 +113,13 @@ class SalesController extends Controller
      */
     public function edit(Sales $sales)
     {
+        $agents = SalesAgent::with(['salesLocation', 'user'])->get();
+
         return Inertia::render('Sales/Edit', [
             'sale' => $sales->load(['items', 'customer', 'agent']),
             'customers' => Customer::all(),
             'products' => Product::all(),
-            'agents' => User::all(),
-            'locations' => SalesLocation::all(),
+            'agents' => $agents,
         ]);
     }
 
@@ -130,7 +131,6 @@ class SalesController extends Controller
         $data = $request->validate([
             'customer_id'=>'required|exists:customers,id',
             'sales_agent_id'=>'nullable|exists:users,id',
-            'sales_location_id'=>'nullable|exists:sales_locations,id',
             'invoice_date'=>'required|date',
             'items'=>'required|array|min:1',
             'items.*.product_id'=>'required|exists:products,id',
@@ -152,6 +152,7 @@ class SalesController extends Controller
             // Remove old items and add new ones
             $sales->items()->delete();
             $sub = 0;
+            
             foreach($data['items'] as $it){
                 $line_total = $it['unit_price'] * $it['quantity'];
                 $sub += $line_total;

@@ -11,22 +11,66 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesLocationController;
+use App\Http\Controllers\SalesAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\NurseryController;
+use App\Http\Controllers\CropController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Application;
+use Spatie\Permission\Middlewares\RoleMiddleware;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
 
 require __DIR__.'/auth.php';
 
 // Public routes
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
+Route::get('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])
+    ->name('register');
+
+Route::post('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])
+    ->name('register.store');
+
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\NewPasswordController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.update');
+
+// Example: Protect routes with roles/permissions
+// Route::group(['middleware' => ['role:admin']], function () {
+//     // Admin-only routes
+// });
+// Route::group(['middleware' => ['permission:edit articles']], function () {
+//     // Permission-protected routes
+// });
 
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -39,13 +83,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Resource routes with permissions (example, adjust as needed)
-    Route::middleware(['can:view-sales'])->resource('sales', SalesController::class);
-    Route::middleware(['can:view-customers'])->resource('customers', CustomerController::class);
-    Route::middleware(['can:view-products'])->resource('products', ProductController::class);
-    Route::middleware(['can:view-sales-locations'])->resource('sales-locations', SalesLocationController::class);
-    Route::middleware(['can:view-users'])->resource('users', UserController::class);
-    Route::middleware(['can:view-roles'])->resource('roles', RoleController::class);
-    Route::middleware(['can:view-permissions'])->resource('permissions', PermissionController::class);
+    Route::resource('sales', SalesController::class);
+    Route::resource('customers', CustomerController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('sales-locations', SalesLocationController::class);
+    Route::resource('sales-agents', SalesAgentController::class);
+    Route::resource('productions', ProductionController::class);
+    Route::resource('nurseries', NurseryController::class);
+    Route::resource('crops', CropController::class);
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
 
     // Role/Permission assignment routes (optional, example)
     Route::get('/roles/{role}/permissions', [RoleController::class, 'assign'])->middleware('can:assign-permissions-roles')->name('roles.permissions');

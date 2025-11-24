@@ -1,5 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
+import '../../public/kaiadmin/css/kaiadmin.min.css';
+import '../../public/kaiadmin/css/bootstrap.min.css';
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';

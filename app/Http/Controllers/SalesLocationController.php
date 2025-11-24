@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SaleLocation;
+use App\Models\SalesLocation;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SalesLocationController extends Controller
 {
@@ -12,7 +13,10 @@ class SalesLocationController extends Controller
      */
     public function index()
     {
-        //
+        $salesLocations = SalesLocation::all();
+        return Inertia::render('SalesLocations/Index', [
+            'salesLocations' => $salesLocations,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class SalesLocationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('SalesLocations/Create');
     }
 
     /**
@@ -28,7 +32,14 @@ class SalesLocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+        ]);
+        $salesLocation = SalesLocation::create($validated);
+        return redirect()->route('sales-locations.index')->with('success', 'Sales location created successfully.');
     }
 
     /**
@@ -36,7 +47,9 @@ class SalesLocationController extends Controller
      */
     public function show(SalesLocation $salesLocation)
     {
-        //
+        return Inertia::render('SalesLocations/Show', [
+            'salesLocation' => $salesLocation,
+        ]);
     }
 
     /**
@@ -44,7 +57,9 @@ class SalesLocationController extends Controller
      */
     public function edit(SalesLocation $salesLocation)
     {
-        //
+        return Inertia::render('SalesLocations/Edit', [
+            'salesLocation' => $salesLocation,
+        ]);
     }
 
     /**
@@ -52,7 +67,15 @@ class SalesLocationController extends Controller
      */
     public function update(Request $request, SalesLocation $salesLocation)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'zip' => 'nullable|string|max:20',
+        ]);
+        $salesLocation->update($validated);
+        return redirect()->route('sales-locations.index')->with('success', 'Sales location updated successfully.');
     }
 
     /**
@@ -60,6 +83,7 @@ class SalesLocationController extends Controller
      */
     public function destroy(SalesLocation $salesLocation)
     {
-        //
+        $salesLocation->delete();
+        return redirect()->route('sales-locations.index')->with('success', 'Sales location deleted successfully.');
     }
 }

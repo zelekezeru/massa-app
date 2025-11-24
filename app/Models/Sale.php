@@ -12,12 +12,30 @@ class Sale extends Model {
         'status','invoice_date','sub_total','discount','tax','total','balance_due','notes'
     ];
 
-    public function customer(){ return $this->belongsTo(Customer::class); }
-    public function items(){ return $this->hasMany(SaleItem::class); }
-    public function payments(){ return $this->hasMany(Payment::class); }
-    public function agent(){ return $this->belongsTo(User::class,'sales_agent_id'); }
-    public function location(){ return $this->belongsTo(SalesLocation::class,'sales_location_id'); }
-    public function commissions(){ return $this->hasMany(Commission::class); }
+    public function customer()
+    { 
+        return $this->belongsTo(Customer::class); 
+    }
+    public function items()
+    { 
+        return $this->hasMany(SaleItem::class);
+    }
+    public function payments()
+    { 
+        return $this->hasMany(Payment::class);
+    }
+    public function agent()
+    { 
+        return $this->belongsTo(User::class,'sales_agent_id');
+    }
+    public function location()
+    { 
+        return $this->belongsTo(SalesLocation::class,'sales_location_id');
+    }
+    public function commissions()
+    { 
+        return $this->hasMany(Commission::class);
+    }
 
     public function recalcTotals(){
         $this->sub_total = $this->items()->sum('line_total');
