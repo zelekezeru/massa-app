@@ -18,5 +18,9 @@ class SalesLocation extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 
 }

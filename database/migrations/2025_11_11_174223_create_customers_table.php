@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('phone')->nullable()->index();
             $table->string('email')->nullable();
             $table->text('address')->nullable();
-            $table->enum('type', ['retail','wholesale','hotel','other'])->default('retail');
+            $table->foreignId('customer_type')->nullable()->constrained('customer_types');
             $table->decimal('credit_limit', 12,2)->default(0);
             $table->foreignId('sales_location_id')->nullable()->constrained('sales_locations');
             $table->timestamps();

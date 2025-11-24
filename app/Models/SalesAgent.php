@@ -30,4 +30,9 @@ class SalesAgent extends Model
     {
         return $this->hasMany(Sale::class);
     }
+
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, 'sales_agent_customer', 'sales_agent_id', 'customer_id');
+    }
 }

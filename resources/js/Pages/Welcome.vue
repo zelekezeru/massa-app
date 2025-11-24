@@ -147,7 +147,7 @@ body {
                 </Link>
 
                 <Link
-                    :href="route('locations.index')"
+                    :href="route('sales-locations.index')"
                     class="bg-green-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition text-center"
                 >
                     <MapPinIcon class="mx-auto w-16 text-green-600" />

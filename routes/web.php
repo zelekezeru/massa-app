@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesLocationController;
 use App\Http\Controllers\SalesAgentController;
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Resource routes with permissions (example, adjust as needed)
     Route::resource('sales', SalesController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('customer-types', CustomerTypeController::class);
     Route::resource('products', ProductController::class);
     Route::resource('sales-locations', SalesLocationController::class);
     Route::resource('sales-agents', SalesAgentController::class);

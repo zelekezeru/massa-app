@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\SalesLocation;
 use App\Models\SalesAgent;
+use App\Models\CustomerType;
 
 class CustomerController extends Controller
 {
@@ -16,8 +17,12 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
+
+        $customerTypes = CustomerType::all();
+
         return Inertia::render('Customers/Index', [
-            'customers' => $customers
+            'customers' => $customers,
+            'customerTypes' => $customerTypes
         ]);
     }
 
@@ -28,10 +33,12 @@ class CustomerController extends Controller
     {
         $salesLocations = SalesLocation::all();
         $salesAgents = SalesAgent::with(['salesLocation', 'user'])->get();
-
+        $customerTypes = CustomerType::all();
+        
         return Inertia::render('Customers/Create', [
             'salesLocations' => $salesLocations,
-            'salesAgents' => $salesAgents
+            'salesAgents' => $salesAgents,
+            'customerTypes' => $customerTypes
         ]);
     }
 
@@ -67,11 +74,13 @@ class CustomerController extends Controller
     {
         $salesLocations = SalesLocation::all();
         $salesAgents = SalesAgent::with(['salesLocation', 'user'])->get();
+        $customerTypes = CustomerType::all();
         
         return Inertia::render('Customers/Edit', [
             'customer' => $customer,
             'salesLocations' => $salesLocations,
-            'salesAgents' => $salesAgents
+            'salesAgents' => $salesAgents,
+            'customerTypes' => $customerTypes
         ]);
     }
 

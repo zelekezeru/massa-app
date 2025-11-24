@@ -3,14 +3,14 @@ import { ref, computed } from 'vue';
 import { useForm, Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
-const props = defineProps({ customer: Object, salesLocations: Array, salesAgents: Array });
+const props = defineProps({ customer: Object, salesLocations: Array, salesAgents: Array, customerTypes: Array });
 
 const form = useForm({
   name: props.customer?.name || '',
   contact_person: props.customer?.contact_person || '',
   phone: props.customer?.phone || '',
   email: props.customer?.email || '',
-  type: props.customer?.type || 'retail',
+  type: props.customer?.type || '',
   credit_limit: props.customer?.credit_limit || 0,
   sales_location_id: props.customer?.sales_location_id || '',
   address: props.customer?.address || '',
@@ -54,10 +54,8 @@ function submit() {
         <div>
           <label class="block text-sm font-semibold mb-1">Type</label>
           <select v-model="form.type" class="form-select w-full rounded border-gray-300 focus:border-green-500 focus:ring-green-500">
-            <option value="retail">Retail</option>
-            <option value="wholesale">Wholesale</option>
-            <option value="hotel">Hotel</option>
-            <option value="other">Other</option>
+            <option value="" disabled>Select customer type</option>
+            <option v-for="type in props.customerTypes" :key="type.id" :value="type.name">{{ type.name }}</option>
           </select>
         </div>
         <div>
