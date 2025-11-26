@@ -23,8 +23,12 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Application;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
+use App\Http\Middleware;
+
+use Http\Middleware\CompanyMiddleware;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Models\Company;
 
 require __DIR__.'/auth.php';
 
@@ -37,7 +41,7 @@ Route::get('/welcome', function () {
 })->name('home');
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Index', [
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
@@ -74,16 +78,8 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
     ->name('password.update');
 
-// Example: Protect routes with roles/permissions
-// Route::group(['middleware' => ['role:admin']], function () {
-//     // Admin-only routes
-// });
-// Route::group(['middleware' => ['permission:edit articles']], function () {
-//     // Permission-protected routes
-// });
-
 // Authenticated routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'company'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

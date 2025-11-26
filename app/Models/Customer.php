@@ -3,10 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'email', 'phone', 'location'];
+    protected $fillable = ['name', 'email', 'phone', 'location', 'company_id'];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('company', function (Builder $builder) {
+            if (app()->bound('company_id')) {
+                $builder->where('company_id', app('company_id'));
+            } else if (auth()->check()) {
+                $builder->where('company_id', auth()->user()->company_id);
+            }
+        });
+    }
 
     public function customerType()
     {

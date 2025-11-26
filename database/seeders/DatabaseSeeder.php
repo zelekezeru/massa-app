@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Database\Seeders\CompanySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Example: Create default roles and permissions
+        $this->call(CompanySeeder::class);
+
         $this->call(RolePermissionSeeder::class);
         
         $this->call(UserSeeder::class);

@@ -32,6 +32,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $role = 3;
+
         $user = $this->register($request, $role);
 
         Auth::login($user);
@@ -47,12 +48,11 @@ class RegisteredUserController extends Controller
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
         ]);
-
         
         $role = Role::findOrFail($role);
 
         $username = $this->generateUniqueUsername($request->name, $role);
-
+        
         $password = $this->generatePassword($request->name, $request->phone);
         
         $user = User::create([

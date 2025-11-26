@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('123456789'),
             'default_password' => '123456789',
+            'company_id' => 1,
         ]);
 
         $user->assignRole($superAdminRole);

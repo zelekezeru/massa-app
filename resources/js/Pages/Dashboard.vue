@@ -11,6 +11,8 @@ const kpis = [
     { icon: 'fas fa-chart-line', label: 'Growth Rate', value: '12.5%', color: 'info' },
 ];
 
+const props = defineProps({ company: Object });
+
 // Chart.js example
 let chartInstance = null;
 onMounted(async () => {

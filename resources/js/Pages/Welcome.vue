@@ -38,6 +38,8 @@ body {
                 >
                     Login
                 </Link>
+                <!-- About Section -->
+                 
                 <Link
                     :href="route('register')"
                     class="bg-green-600 px-4 py-2 rounded-lg text-white hover:bg-green-700 transition"

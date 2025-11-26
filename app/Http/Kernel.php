@@ -31,7 +31,7 @@ class Kernel extends HttpKernel
             // ...existing code...
         ],
     ];
-
+    
     /**
      * The application's route middleware.
      *
@@ -42,5 +42,10 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // ...existing code...
         'can' => \App\Http\Middleware\CanMiddleware::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        // add this:
+        'company' => \App\Http\Middleware\CompanyMiddleware::class,
     ];
 }

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -21,10 +22,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'phone',
         'address',
-        'username',
         'password',
+        'company_id',
     ];
 
     /**
@@ -48,6 +50,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('company', function (Builder $builder) {
+            if (app()->bound('company_id')) {
+                $builder->where('company_id', app('company_id'));
+            }
+        });
     }
 
     public function salesAgent()
