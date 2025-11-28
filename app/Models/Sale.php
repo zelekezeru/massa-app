@@ -8,8 +8,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Sale extends Model {
     use HasFactory;
     protected $fillable = [
-        'invoice_no','customer_id','sales_agent_id','sales_location_id',
-        'status','invoice_date','sub_total','discount','tax','total','balance_due','notes'
+        'invoice_no',
+        'customer_id',
+        'sales_agent_id',
+        'status',
+        'invoice_date',
+        'sub_total',
+        'discount',
+        'tax',
+        'total',
+        'balance_due',
+        'notes',
+        'company_id',
     ];
 
     public function customer()
@@ -24,7 +34,7 @@ class Sale extends Model {
     { 
         return $this->hasMany(Payment::class);
     }
-    public function agent()
+    public function salesAgent()
     { 
         return $this->belongsTo(User::class,'sales_agent_id');
     }
@@ -35,6 +45,10 @@ class Sale extends Model {
     public function commissions()
     { 
         return $this->hasMany(Commission::class);
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function recalcTotals(){

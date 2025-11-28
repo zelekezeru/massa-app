@@ -1,0 +1,16 @@
+{
+    "dashboard": "Dashboard",
+    "monthly_sales": "Monthly Sales",
+    "active_customers": "Active Customers",
+    "products_sold": "Products Sold",
+    "growth_rate": "Growth Rate",
+    "new_report": "New Report",
+    "sales_trend": "Sales Trend",
+    "quick_stats": "Quick Stats",
+    "new_orders": "New Orders",
+    "pending_deliveries": "Pending Deliveries",
+    "support_tickets": "Support Tickets",
+    "notifications": "Notifications",
+    "sales_target_reached": "Sales target reached!",
+    "low_stock": "Low stock on 2 products."
+}

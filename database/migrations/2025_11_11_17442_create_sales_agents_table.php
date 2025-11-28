@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('position')->nullable();
             $table->foreignId('sales_location_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });
     }

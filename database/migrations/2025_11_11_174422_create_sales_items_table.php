@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->decimal('quantity', 12,3);
       $table->decimal('line_total', 12,2);
       $table->text('notes')->nullable();
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
       $table->timestamps();
     });
   }

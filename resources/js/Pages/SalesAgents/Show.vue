@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 const props = defineProps({ salesAgent: Object });
@@ -13,7 +13,7 @@ function deleteAgent() {
 
 <template>
   <Head :title="props.salesAgent ? props.salesAgent.name : 'Sales Agent Details'" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 animate-fade-in">
       <div v-if="!props.salesAgent" class="text-center text-gray-400 text-lg py-12">
         Sales Agent not found.
@@ -49,7 +49,7 @@ function deleteAgent() {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

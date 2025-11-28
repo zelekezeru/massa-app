@@ -13,9 +13,10 @@ return new class extends Migration {
             $table->string('unit')->default('kg'); // kg, pcs, bunch etc.
             $table->decimal('base_price', 12, 2)->default(0); // default price
             $table->integer('stock')->default(0);
+            $table->foreignId('farm_id')->constrained('farms')->nullable();
             $table->foreignId('sales_location_id')->nullable()->constrained('sales_locations');
-            $table->foreignId('company_id')->constrained('companies');
             $table->text('notes')->nullable();
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });
     }

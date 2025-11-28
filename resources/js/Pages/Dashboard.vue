@@ -1,17 +1,17 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-// Example data for KPIs and chart
+const { t } = useI18n();
+
 const kpis = [
-    { icon: 'fas fa-seedling', label: 'Monthly Sales', value: '78,450 birr', color: 'success' },
-    { icon: 'fas fa-users', label: 'Active Customers', value: '1,230', color: 'primary' },
-    { icon: 'fas fa-box', label: 'Products Sold', value: '3,400', color: 'warning' },
-    { icon: 'fas fa-chart-line', label: 'Growth Rate', value: '12.5%', color: 'info' },
+    { icon: 'fas fa-seedling', label: t('monthly_sales'), value: '78,450 birr', color: 'success' },
+    { icon: 'fas fa-users', label: t('active_customers'), value: '1,230', color: 'primary' },
+    { icon: 'fas fa-box', label: t('products_sold'), value: '3,400', color: 'warning' },
+    { icon: 'fas fa-chart-line', label: t('growth_rate'), value: '12.5%', color: 'info' },
 ];
-
-const props = defineProps({ company: Object });
 
 // Chart.js example
 let chartInstance = null;
@@ -21,7 +21,14 @@ onMounted(async () => {
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: [
+                t('months.jan'),
+                t('months.feb'),
+                t('months.mar'),
+                t('months.apr'),
+                t('months.may'),
+                t('months.jun')
+            ],
             datasets: [{
                 label: 'Sales',
                 data: [12000, 15000, 14000, 18000, 20000, 22000],
@@ -44,16 +51,16 @@ onMounted(async () => {
 });
 </script>
 
-<template>
+<template>  
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
+    <AppLayout>
         <div class="page-inner py-6 px-4 bg-light min-vh-100">
             <!-- Page Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold text-success mb-0">Dashboard</h2>
+                <h2 class="fw-bold text-success mb-0">{{ t('dashboard') }}</h2>
                 <button class="btn btn-success shadow-sm d-none d-md-inline-flex">
-                    <i class="fas fa-plus me-2"></i> New Report
+                    <i class="fas fa-plus me-2"></i> {{ t('new_report') }}
                 </button>
             </div>
 
@@ -79,7 +86,7 @@ onMounted(async () => {
                 <div class="col-12 col-lg-8">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-white border-0 pb-0">
-                            <h5 class="card-title text-success mb-0">Sales Trend</h5>
+                            <h5 class="card-title text-success mb-0">{{ t('sales_trend') }}</h5>
                         </div>
                         <div class="card-body">
                             <canvas id="salesChart" height="120"></canvas>
@@ -89,35 +96,35 @@ onMounted(async () => {
                 <div class="col-12 col-lg-4">
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-body">
-                            <h6 class="text-muted">Quick Stats</h6>
+                            <h6 class="text-muted">{{ t('quick_stats') }}</h6>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    New Orders <span class="badge bg-success rounded-pill">34</span>
+                                    {{ t('new_orders') }} <span class="badge bg-success rounded-pill">34</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Pending Deliveries <span class="badge bg-warning rounded-pill">7</span>
+                                    {{ t('pending_deliveries') }} <span class="badge bg-warning rounded-pill">7</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Support Tickets <span class="badge bg-info rounded-pill">3</span>
+                                    {{ t('support_tickets') }} <span class="badge bg-info rounded-pill">3</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
-                            <h6 class="text-muted mb-2">Notifications</h6>
+                            <h6 class="text-muted mb-2">{{ t('notifications') }}</h6>
                             <div class="alert alert-success mb-2 py-2 px-3">
-                                <i class="fas fa-check-circle me-2"></i> Sales target reached!
+                                <i class="fas fa-check-circle me-2"></i> {{ t('sales_target_reached') }}
                             </div>
                             <div class="alert alert-warning mb-0 py-2 px-3">
-                                <i class="fas fa-exclamation-triangle me-2"></i> Low stock on 2 products.
+                                <i class="fas fa-exclamation-triangle me-2"></i> {{ t('low_stock') }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </AppLayout>
 </template>
 
 <style scoped>

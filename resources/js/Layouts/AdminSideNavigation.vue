@@ -1,58 +1,13 @@
-<template>
-    <nav class="sidebar sidebar-style-2" data-background-color="dark2">
-        <div class="sidebar-wrapper scrollbar-inner">
-            <div class="sidebar-content">
-                
-                <!-- Logo -->
-                <div class="user">
-                    <div class="avatar-sm float-left mr-2">
-                        <img src="/assets/img/massa-logo.svg" alt="MASSA Logo" class="avatar-img rounded-circle" />
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block text-white fw-bold">MASSA FARMS</a>
-                    </div>
-                </div>
-
-                <!-- Navigation -->
-                <ul class="nav nav-primary">
-                    <li class="nav-item">
-                        <Link :href="route('dashboard')" class="nav-link">
-                            <i class="fas fa-home"></i>
-                            <p>Dashboard</p>
-                        </Link>
-                    </li>
-
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                        <h4 class="text-section">Management</h4>
-                    </li>
-
-                    <li class="nav-item" v-for="item in managementLinks" :key="item.route">
-                        <Link :href="route(item.route)" class="nav-link">
-                            <i :class="item.icon"></i>
-                            <p>{{ item.title }}</p>
-                        </Link>
-                    </li>
-
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
-                        <h4 class="text-section">Admin</h4>
-                    </li>
-
-                    <li class="nav-item" v-for="item in adminLinks" :key="item.route">
-                        <Link :href="route(item.route)" class="nav-link">
-                            <i :class="item.icon"></i>
-                            <p>{{ item.title }}</p>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</template>
-
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
+import NavLink from '@/Components/NavLink.vue';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { Link } from '@inertiajs/vue3';
+
+const showingNavigationDropdown = ref(false);
 
 const managementLinks = [
     { route: 'sales.index', icon: 'fas fa-seedling', title: 'Sales' },
@@ -64,14 +19,80 @@ const managementLinks = [
     { route: 'employees.index', icon: 'fas fa-user-tie', title: 'Employees' },
     { route: 'sales-locations.index', icon: 'fas fa-map-marker-alt', title: 'Sales Locations' },
     { route: 'sales-agents.index', icon: 'fas fa-user-friends', title: 'Sales Agents' },
-]
+];
 
 const adminLinks = [
     { route: 'users.index', icon: 'fas fa-user-cog', title: 'Users' },
     { route: 'roles.index', icon: 'fas fa-user-shield', title: 'Roles' },
     { route: 'permissions.index', icon: 'fas fa-key', title: 'Permissions' },
-]
+];
 </script>
+
+
+<template>
+    <aside class="sidebar sidebar-style-2" data-background-color="dark2">
+        <div class="sidebar-wrapper scrollbar-inner">
+            <div class="sidebar-content">
+                <!-- Logo & Dropdown -->
+                <div class="user flex items-center gap-3 px-2 py-4">
+                    <div class="avatar-sm float-left mr-2">
+                        <img src="/assets/img/massa-logo.svg" alt="MASSA Logo" class="avatar-img rounded-circle" />
+                    </div>
+                    <div class="info flex-1">
+                        <a href="#" class="d-block text-white fw-bold">MASSA FARMS</a>
+                        <Dropdown align="right" width="48">
+                            <template #trigger>
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-transparent px-2 py-1 text-xs font-medium leading-4 text-gray-200 hover:text-yellow-400 focus:outline-none">
+                                        <i class="fa fa-user-circle mr-1"></i>
+                                        {{ $page.props.auth.user.name }}
+                                        <svg class="-me-0.5 ms-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            </template>
+                            <template #content>
+                                <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
+                                <DropdownLink :href="route('logout')" method="post" as="button">Log Out</DropdownLink>
+                            </template>
+                        </Dropdown>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <ul class="nav nav-primary">
+                    <li class="nav-item">
+                        <Link :href="route('dashboard')" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                        </Link>
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                        <h4 class="text-section">Management</h4>
+                    </li>
+                    <li class="nav-item" v-for="item in managementLinks" :key="item.route">
+                        <Link :href="route(item.route)" class="nav-link">
+                            <i :class="item.icon"></i>
+                            <p>{{ item.title }}</p>
+                        </Link>
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                        <h4 class="text-section">Admin</h4>
+                    </li>
+                    <li class="nav-item" v-for="item in adminLinks" :key="item.route">
+                        <Link :href="route(item.route)" class="nav-link">
+                            <i :class="item.icon"></i>
+                            <p>{{ item.title }}</p>
+                        </Link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+</template>
+
 
 <style scoped>
 /* Sidebar Container */

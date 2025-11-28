@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ref, onMounted, defineProps } from 'vue';
 
@@ -10,7 +10,7 @@ const props = defineProps({ sales: Array });
 <template>
   <Head title="Sales" />
 
-  <AuthenticatedLayout>
+  <AppLayout>
 
     <div class="page-inner py-6 px-4 bg-light min-vh-100">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
@@ -56,7 +56,7 @@ const props = defineProps({ sales: Array });
         </table>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

@@ -11,4 +11,9 @@ class ProductCategory extends Model
         'name',
         'description',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

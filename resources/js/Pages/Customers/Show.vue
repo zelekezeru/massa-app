@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 const props = defineProps({ customer: Object });
@@ -13,7 +13,7 @@ function deleteCustomer() {
 
 <template>
   <Head :title="props.customer ? props.customer.name : 'Customer Details'" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 animate-fade-in">
       <div v-if="!props.customer" class="text-center text-gray-400 text-lg py-12">
         Customer not found.
@@ -47,7 +47,7 @@ function deleteCustomer() {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

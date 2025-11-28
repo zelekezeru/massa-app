@@ -1,5 +1,5 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import WebLayout from "@/Layouts/WebLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, onMounted } from "vue";
 import {
@@ -40,9 +40,13 @@ const email = ref("");
 const subscribed = ref(false);
 
 const handleSubscribe = () => {
-  if(!email.value) return;
-  subscribed.value = true;
-  setTimeout(() => { subscribed.value = false; email.value = ""; }, 3000);
+  if (!email.value) return;
+  router.post(route('contacts.store'), { email: email.value }, {
+    onSuccess: () => {
+      subscribed.value = true;
+      setTimeout(() => { subscribed.value = false; email.value = ""; }, 3000);
+    }
+  });
 };
 
 </script>
@@ -93,9 +97,10 @@ const handleSubscribe = () => {
 <template>
   <Head title="MASSA FARMS — Nature's Best" />
 
-  <GuestLayout>
+  <WebLayout>
     <div class="font-sans text-slate-800 bg-[#FDFBF7] min-h-screen selection:bg-lime-300 selection:text-emerald-900">
 
+      <!-- Header Section -->
       <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <nav class="bg-emerald-950/90 backdrop-blur-md text-white px-2 pl-6 py-2 rounded-full shadow-2xl border border-white/10 flex items-center justify-between gap-8 max-w-4xl w-full transition-all duration-300">
           
@@ -116,7 +121,7 @@ const handleSubscribe = () => {
               <ShoppingBagIcon class="w-5 h-5 text-white" />
               <span class="absolute top-2 right-2 w-2 h-2 bg-lime-400 rounded-full"></span>
             </Link>
-            <Link v-if="props.canLogin" :href="route('login')" class="hidden md:block bg-lime-400 hover:bg-lime-300 text-emerald-950 px-6 py-2.5 rounded-full text-sm font-bold transition">
+            <Link :href="route('login')" class="hidden md:block bg-lime-400 hover:bg-lime-300 text-emerald-950 px-6 py-2.5 rounded-full text-sm font-bold transition">
               Sign In
             </Link>
             <button @click="showMobileMenu = !showMobileMenu" class="md:hidden p-3 hover:bg-white/10 rounded-full">
@@ -126,6 +131,7 @@ const handleSubscribe = () => {
         </nav>
       </header>
 
+      <!-- Produces Section -->
       <section class="relative pt-32 pb-16 px-4 md:px-8 overflow-hidden bg-grain">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
           
@@ -195,11 +201,12 @@ const handleSubscribe = () => {
         </div>
       </div>
 
+      <!-- Catalog Section -->
       <section class="py-24 px-4 md:px-8">
         <div class="max-w-7xl mx-auto">
           <div class="flex justify-between items-end mb-12">
             <h2 class="font-serif text-4xl text-emerald-950">Curated Aisle</h2>
-            <Link href="/shop" class="hidden md:flex items-center gap-2 text-sm font-bold border-b border-emerald-950 pb-0.5 hover:text-emerald-700 transition">View Full Catalog</Link>
+            <Link href="#" class="hidden md:flex items-center gap-2 text-sm font-bold border-b border-emerald-950 pb-0.5 hover:text-emerald-700 transition">View Full Catalog</Link>
           </div>
 
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -217,6 +224,7 @@ const handleSubscribe = () => {
         </div>
       </section>
 
+      <!-- Harvests Section -->
       <section id="shop" class="py-24 px-4 md:px-8 bg-emerald-950 text-white rounded-t-[3rem] relative bg-grain">
         <div class="max-w-7xl mx-auto">
           <div class="text-center max-w-2xl mx-auto mb-16">
@@ -259,7 +267,46 @@ const handleSubscribe = () => {
         </div>
       </section>
 
-      <section class="py-24 px-4 md:px-8 bg-emerald-900 relative overflow-hidden">
+      <!-- Farmers Section -->
+      <section id="about" class="py-24 px-4 md:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-lime-400 font-bold tracking-widest uppercase text-xs">Meet The Farmers</span>
+        <h2 class="font-serif text-4xl md:text-5xl mt-4 text-emerald-950">Our Partner Growers</h2>
+        <p class="text-stone-500 mt-4">The heart of Massa Farms — passionate, local smallholders bringing fresh harvests to your table every week.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-emerald-50 rounded-3xl p-6 text-center shadow hover:shadow-lg transition">
+          <img src="/assets/website/alemu.jpg" alt="Farmer 1" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-lime-200" />
+          <h3 class="font-serif text-xl text-emerald-950">Alemu Bekele</h3>
+          <p class="text-sm text-stone-500 mt-1">Vegetable Specialist</p>
+          <p class="mt-4 text-stone-600 text-xs">15 years cultivating onions & greens in Oromia.</p>
+        </div>
+        <div class="bg-emerald-50 rounded-3xl p-6 text-center shadow hover:shadow-lg transition">
+          <img src="/assets/website/mulu.jpg" alt="Farmer 2" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-lime-200" />
+          <h3 class="font-serif text-xl text-emerald-950">Mulu Getachew</h3>
+          <p class="text-sm text-stone-500 mt-1">Fruit Grower</p>
+          <p class="mt-4 text-stone-600 text-xs">Supplying ripe avocados & mangos for Addis since 2010.</p>
+        </div>
+        <div class="bg-emerald-50 rounded-3xl p-6 text-center shadow hover:shadow-lg transition">
+          <img src="/assets/website/tesfaye.jpg" alt="Farmer 3" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-lime-200" />
+          <h3 class="font-serif text-xl text-emerald-950">Tesfaye Lema</h3>
+          <p class="text-sm text-stone-500 mt-1">Grains & Cereals</p>
+          <p class="mt-4 text-stone-600 text-xs">Expert in teff, wheat, and sustainable farming methods.</p>
+        </div>
+        <div class="bg-emerald-50 rounded-3xl p-6 text-center shadow hover:shadow-lg transition">
+          <img src="/assets/website/sara.jpg" alt="Farmer 4" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-lime-200" />
+          <h3 class="font-serif text-xl text-emerald-950">Sara Fikru</h3>
+          <p class="text-sm text-stone-500 mt-1">Dairy & Honey</p>
+          <p class="mt-4 text-stone-600 text-xs">Local leader in organic milk and wild honey production.</p>
+        </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Subscription Section -->
+      <section id="contact" class="py-24 px-4 md:px-8 bg-emerald-900 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-full opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
 
         <div class="max-w-4xl mx-auto text-center relative z-10">
@@ -281,6 +328,7 @@ const handleSubscribe = () => {
         </div>
       </section>
 
+      <!-- Footer Section -->
       <footer class="bg-[#FDFBF7] pt-20 pb-10 px-4 border-t border-emerald-950/5">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
           <div class="max-w-xs">
@@ -326,5 +374,5 @@ const handleSubscribe = () => {
       </footer>
 
     </div>
-  </GuestLayout>
+  </WebLayout>
 </template>

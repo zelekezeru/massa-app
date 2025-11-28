@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 const props = defineProps({ sale: Object });
@@ -13,7 +13,7 @@ function deleteSale() {
 
 <template>
   <Head title="Sale Details" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 animate-fade-in">
       <div v-if="!sale" class="text-center text-gray-400 text-lg py-12">
         Sale not found.
@@ -79,7 +79,7 @@ function deleteSale() {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\NurseryController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Application;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
@@ -31,14 +32,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Models\Company;
 
 require __DIR__.'/auth.php';
-
-// Public routes
-Route::get('/welcome', function () {
-    return Inertia::render('MainWebsite/Index', [
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+require __DIR__.'/lang.php';
 
 Route::get('/', function () {
     return Inertia::render('Index', [
@@ -66,20 +60,17 @@ Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
     ->middleware('guest')
     ->name('password.request');
 
-Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-    ->middleware('guest')
-    ->name('password.email');
-
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
     ->middleware('guest')
     ->name('password.reset');
 
 Route::post('/reset-password', [NewPasswordController::class, 'store'])
-    ->middleware('guest')
-    ->name('password.update');
+    ->middleware('guest');
+
+Route::resource('contacts', ContactController::class);
 
 // Authenticated routes
-Route::middleware(['auth', 'verified', 'company'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -107,4 +98,21 @@ Route::middleware(['auth', 'verified', 'company'])->group(function () {
     Route::get('/roles/{role}/permissions', [RoleController::class, 'assign'])->middleware('can:assign-permissions-roles')->name('roles.permissions');
     Route::put('/roles/{role}/permissions', [RoleController::class, 'attach'])->middleware('can:attach-permissions-roles')->name('roles.attach');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'detach'])->middleware('can:detach-permissions-roles')->name('roles.detach');
+});
+
+Route::middleware(['auth', 'verified', 'company'])->group(function () {
+    Route::resource('seeds', App\Http\Controllers\SeedController::class);
+});
+
+// Language switcher
+Route::post('/language/switch', function () {
+    $lang = request('lang');
+    session(['locale' => $lang]);
+    app()->setLocale($lang);
+
+    if(auth()->check()) {
+        auth()->user()->update(['language' => $lang]);
+    }
+
+    return back();
 });

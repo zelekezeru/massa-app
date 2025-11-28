@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('price_lists', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });
     }

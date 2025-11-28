@@ -13,6 +13,7 @@ return new class extends Migration {
       $table->decimal('rate', 5,2)->default(0); // percent
       $table->decimal('amount', 12,2)->default(0);
       $table->boolean('paid')->default(false);
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
       $table->timestamps();
     });
   }

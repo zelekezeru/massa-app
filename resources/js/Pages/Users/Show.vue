@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 const props = defineProps({ user: Object, roles: Object });
@@ -13,7 +13,7 @@ function deleteUser() {
 
 <template>
   <Head :title="props.user ? props.user.name : 'User Details'" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 animate-fade-in">
       <div v-if="!props.user" class="text-center text-gray-400 text-lg py-12">
         User not found.
@@ -50,7 +50,7 @@ function deleteUser() {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

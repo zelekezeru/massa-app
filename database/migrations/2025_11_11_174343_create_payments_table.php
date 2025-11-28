@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->date('paid_at')->nullable();
       $table->foreignId('received_by')->nullable()->constrained('users');
       $table->text('notes')->nullable();
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
       $table->timestamps();
     });
   }

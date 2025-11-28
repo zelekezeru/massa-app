@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->foreignId('company_id')->constrained('companies');
             $table->string('profile_img')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('default_password')->nullable();
             $table->boolean('password_changed')->default(false);
             $table->boolean('is_deleted')->default(false);
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
 
             $table->rememberToken();
             $table->timestamps();

@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import UserForm from './form.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
@@ -8,7 +8,7 @@ const props = defineProps({ user: Object, roles: Array });
 
 <template>
   <Head title="Edit User" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <UserForm :user="user" :roles="roles" />
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>

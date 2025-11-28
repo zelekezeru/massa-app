@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import SalesLocationForm from './form.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
@@ -8,7 +8,7 @@ const props = defineProps({ salesLocation: Object });
 
 <template>
   <Head title="Edit Sales Location" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <SalesLocationForm :salesLocation="salesLocation" />
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>

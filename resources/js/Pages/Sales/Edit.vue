@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import SalesForm from './form.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
@@ -8,7 +8,7 @@ const props = defineProps({ sale: Object, customers: Array, products: Array, age
 
 <template>
   <Head title="Edit Sale" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <SalesForm :sale="sale" :customers="customers" :products="products" :agents="agents" />
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>

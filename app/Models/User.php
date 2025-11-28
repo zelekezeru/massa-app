@@ -71,5 +71,8 @@ class User extends Authenticatable
         return $this->roles()->pluck('name')->first();
     }
 
-
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

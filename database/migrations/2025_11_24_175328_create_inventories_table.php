@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->nullable()->constrained('companies')->nullOnDelete();
+            $table->string('item_name');
+            $table->string('item_code')->unique();
+            $table->text('description')->nullable();
+            $table->integer('quantity')->default(0);
+            $table->decimal('price_per_unit', 12, 2)->default(0);
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });
     }

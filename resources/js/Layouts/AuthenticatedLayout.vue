@@ -9,109 +9,122 @@ import { Link, Head } from "@inertiajs/vue3";
 import AdminSideNavigation from '@/Layouts/AdminSideNavigation.vue';
 
 const showingNavigationDropdown = ref(false);
+const showSidebar = ref(true);
 </script>
 
 <template>
     <Head />
-
-    <!-- WRAPPER -->
-    <div class="wrapper">
-
-        <!-- === NAVBAR === -->
-        <nav class="navbar navbar-header navbar-expand-lg massa-navbar">
-            <div class="container-fluid d-flex align-items-center justify-content-end ms-auto">
-
-                <!-- Desktop Menu -->
-                <ul class="navbar-nav topbar-nav align-items-center d-none d-lg-flex">
-                    <li class="nav-item dropdown hidden-caret">
-                        <Dropdown align="right" width="48">
-                            <template #trigger>
-                                <a class="nav-link dropdown-toggle massa-nav-link" href="#">
-                                    <span class="me-2 fw-bold massa-nav-user">
-                                        {{ $page.props.auth.user.name }}
-                                    </span>
-                                    <i class="fa fa-user-circle"></i>
-                                </a>
-                            </template>
-
-                            <template #content>
-                                <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
-                                <DropdownLink :href="route('logout')" method="post" as="button">
-                                    Logout
-                                </DropdownLink>
-                            </template>
-                        </Dropdown>
-                    </li>
-                </ul>
-
-                <!-- Mobile Toggle -->
-                <button
-                    class="navbar-toggler massa-navbar-toggler"
-                    type="button"
-                    @click="showingNavigationDropdown = !showingNavigationDropdown"
+    <div class="wrapper flex">
+        <!-- Sidebar -->
+        <transition name="slide">
+            <AdminSideNavigation v-if="showSidebar" />
+        </transition>
+        <!-- Main Content -->
+        <div class="flex-1 min-w-0">
+            <!-- === NAVBAR === -->
+            <nav class="navbar navbar-header navbar-expand-lg massa-navbar flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <!-- Hamburger Button -->
+                    <button
+                        class="navbar-toggler massa-navbar-toggler mr-2"
+                        type="button"
+                        @click="showSidebar = !showSidebar"
+                        aria-label="Toggle sidebar"
+                    >
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="container-fluid d-flex align-items-center justify-content-end ms-auto">
+                    <!-- Desktop Menu -->
+                    <ul class="navbar-nav topbar-nav align-items-center d-none d-lg-flex">
+                        <li class="nav-item dropdown hidden-caret">
+                            <Dropdown align="right" width="48">
+                                <template #trigger>
+                                    <a class="nav-link dropdown-toggle massa-nav-link" href="#">
+                                        <span class="me-2 fw-bold massa-nav-user">
+                                            {{ $page.props.auth.user.name }}
+                                        </span>
+                                        <i class="fa fa-user-circle"></i>
+                                    </a>
+                                </template>
+                                <template #content>
+                                    <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
+                                    <DropdownLink :href="route('logout')" method="post" as="button">
+                                        Logout
+                                    </DropdownLink>
+                                </template>
+                            </Dropdown>
+                        </li>
+                    </ul>
+                    <!-- Mobile Toggle -->
+                    <button
+                        class="navbar-toggler massa-navbar-toggler"
+                        type="button"
+                        @click="showingNavigationDropdown = !showingNavigationDropdown"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <!-- Mobile Menu -->
+                <div
+                    class="collapse navbar-collapse massa-navbar-collapse"
+                    :class="{ show: showingNavigationDropdown }"
                 >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div
-                class="collapse navbar-collapse massa-navbar-collapse"
-                :class="{ show: showingNavigationDropdown }"
-            >
-                <ul class="navbar-nav ms-3">
-                    <li class="nav-item">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                            class="massa-nav-link"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </li>
-                </ul>
-
-                <div class="border-top mt-3 pt-3 px-3">
-                    <div class="fw-bold massa-nav-user">
-                        {{ $page.props.auth.user.name }}
-                    </div>
-                    <div class="text-muted small">
-                        {{ $page.props.auth.user.email }}
-                    </div>
-
-                    <div class="mt-3">
-                        <ResponsiveNavLink :href="route('profile.edit')" class="massa-nav-link">
-                            Profile
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="massa-nav-link">
-                            Logout
-                        </ResponsiveNavLink>
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item">
+                            <ResponsiveNavLink
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
+                                class="massa-nav-link"
+                            >
+                                Dashboard
+                            </ResponsiveNavLink>
+                        </li>
+                    </ul>
+                    <div class="border-top mt-3 pt-3 px-3">
+                        <div class="fw-bold massa-nav-user">
+                            {{ $page.props.auth.user.name }}
+                        </div>
+                        <div class="text-muted small">
+                            {{ $page.props.auth.user.email }}
+                        </div>
+                        <div class="mt-3">
+                            <ResponsiveNavLink :href="route('profile.edit')" class="massa-nav-link">
+                                Profile
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="massa-nav-link">
+                                Logout
+                            </ResponsiveNavLink>
+                        </div>
                     </div>
                 </div>
+            </nav>
+            <!-- === MAIN PANEL === -->
+            <div class="main-panel">
+                <!-- PAGE HEADER -->
+                <div v-if="$slots.header" class="page-header refined-header shadow-sm px-4">
+                    <slot name="header" />
+                </div>
+                <!-- PAGE CONTENT -->
+                <div class="container mt-3">
+                    <slot />
+                </div>
             </div>
-
-            <!-- Sidebar remains here -->
-            <AdminSideNavigation />
-        </nav>
-
-        <!-- === MAIN PANEL === -->
-        <div class="main-panel">
-
-            <!-- PAGE HEADER -->
-            <div v-if="$slots.header" class="page-header refined-header shadow-sm px-4">
-                <slot name="header" />
-            </div>
-
-            <!-- PAGE CONTENT -->
-            <div class="container mt-3">
-                <slot />
-            </div>
-
         </div>
     </div>
 </template>
 
 <style scoped>
+.slide-enter-active, .slide-leave-active {
+  transition: margin-left 0.3s, opacity 0.3s;
+}
+.slide-enter-from, .slide-leave-to {
+  margin-left: -260px;
+  opacity: 0;
+}
+
 /* === NAVBAR STYLING === */
 .massa-navbar {
     background: linear-gradient(90deg, #38c172 0%, #218838 100%) !important;

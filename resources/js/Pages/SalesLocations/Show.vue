@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 const props = defineProps({ salesLocation: Object });
@@ -13,7 +13,7 @@ function deleteLocation() {
 
 <template>
   <Head :title="props.salesLocation ? props.salesLocation.name : 'Sales Location Details'" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 animate-fade-in">
       <div v-if="!props.salesLocation" class="text-center text-gray-400 text-lg py-12">
         Sales Location not found.
@@ -48,7 +48,7 @@ function deleteLocation() {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

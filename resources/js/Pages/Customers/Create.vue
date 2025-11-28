@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import CustomerForm from './form.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
@@ -8,8 +8,8 @@ const props = defineProps({ salesLocations: Array, salesAgents: Array, customerT
 
 <template>
   <Head title="Create Customer" />
-  <AuthenticatedLayout>
+  <AppLayout>
     <CustomerForm :salesLocations="salesLocations" :salesAgents="salesAgents" :customerTypes="customerTypes" />
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 

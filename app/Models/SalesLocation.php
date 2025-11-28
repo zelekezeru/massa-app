@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SalesLocation extends Model
 {
-    protected $fillable = ['name', 'address', 'city', 'state'];
+    protected $fillable = [
+        'name',
+        'address',
+        'city',
+        'state',
+        'company_id',
+    ];
 
     public function salesAgents()
     {
@@ -21,6 +27,11 @@ class SalesLocation extends Model
     public function customers()
     {
         return $this->hasMany(Customer::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
 }

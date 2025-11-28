@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ref, computed, defineProps } from 'vue';
 import { UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline';
@@ -23,7 +23,7 @@ const filteredCustomers = computed(() => {
 
 <template>
 
-  <AuthenticatedLayout>
+  <AppLayout>
 
       <!-- Tabs Navigation -->
       <nav class="flex space-x-4 mb-6 border-b border-green-200">
@@ -111,7 +111,7 @@ const filteredCustomers = computed(() => {
           <!-- Add more tab content as needed for wholesale, hotel, other -->
         </div>
       </transition>
-  </AuthenticatedLayout>
+  </AppLayout>
 </template>
 
 <style scoped>

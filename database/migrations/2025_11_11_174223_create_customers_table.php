@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('customer_type')->nullable()->constrained('customer_types');
             $table->decimal('credit_limit', 12,2)->default(0);
             $table->foreignId('sales_location_id')->nullable()->constrained('sales_locations');
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });
     }

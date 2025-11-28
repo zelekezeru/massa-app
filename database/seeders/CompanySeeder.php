@@ -11,6 +11,9 @@ class CompanySeeder extends Seeder
     {
         Company::create([
             'name' => 'MASSA Farm',
+            'email' => 'info@massa.farm',
+            'phone' => '+251 915 391 234',
+            'address' => 'Hawassa, Ethiopia',
             'logo' => '/assets/img/massa-logo.svg',
             'settings' => json_encode([
                 'theme' => 'green',
