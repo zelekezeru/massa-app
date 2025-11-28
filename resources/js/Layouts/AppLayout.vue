@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed, provide, watch } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { Bars3Icon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import { router } from "@inertiajs/vue3";
@@ -9,12 +9,53 @@ import LanguageToggle from "@/Components/LanguageToggle.vue";
 // Auth User
 const user = computed(() => usePage().props.auth.user);
 
-const darkMode = ref(localStorage.getItem("darkMode") === "true");
+// Initialize dark mode: prefer saved user choice, otherwise system preference
+const getInitialDark = () => {
+    try {
+        const stored = localStorage.getItem("darkMode");
+        if (stored !== null) return stored === "true";
+    } catch (e) {
+        // ignore localStorage errors
+    }
+
+    return (
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+};
+
+const darkMode = ref(getInitialDark());
+// detect whether user explicitly set a preference (stored in localStorage)
+let userPrefersSet = false;
+try {
+    userPrefersSet = localStorage.getItem("darkMode") !== null;
+} catch (e) {
+    userPrefersSet = false;
+}
+
+// expose reactive darkMode to child components via provide
+provide("darkMode", darkMode);
+
 const toggleDarkMode = () => {
     darkMode.value = !darkMode.value;
-    localStorage.setItem("darkMode", darkMode.value);
-    document.documentElement.classList.toggle("dark", darkMode.value);
+    // mark that user explicitly chose a preference and persist it
+    userPrefersSet = true;
+    try {
+        localStorage.setItem("darkMode", String(darkMode.value));
+    } catch (e) {
+        // ignore
+    }
 };
+
+// watch darkMode and apply the `dark` class to the root element whenever it changes
+watch(darkMode, (val) => {
+    try {
+        document.documentElement.classList.toggle("dark", val);
+    } catch (e) {
+        // ignore
+    }
+});
 
 // Responsive sidebar logic
 const isMobile = ref(false);
@@ -32,13 +73,25 @@ onMounted(() => {
     updateScreen();
     window.addEventListener("resize", updateScreen);
 
-    if (darkMode.value) {
-        document.documentElement.classList.add("dark");
-    } else {
-        document.documentElement.classList.remove("dark");
-    }
+    // Apply initial dark class according to preference
+    document.documentElement.classList.toggle("dark", darkMode.value);
 
-    document.addEventListener("click", handleClickOutside);
+    // Listen for system preference changes and update when the user hasn't chosen an explicit preference
+    try {
+        if (window.matchMedia) {
+            const mq = window.matchMedia("(prefers-color-scheme: dark)");
+            const mqHandler = (e) => {
+                if (!userPrefersSet) {
+                    darkMode.value = e.matches;
+                }
+            };
+            // add listener with modern API, fallback to addEventListener
+            if (typeof mq.addEventListener === "function") mq.addEventListener("change", mqHandler);
+            else if (typeof mq.addListener === "function") mq.addListener(mqHandler);
+        }
+    } catch (e) {
+        // ignore
+    }
 });
 
 onUnmounted(() => {
@@ -88,16 +141,16 @@ const logout = () => {
 <template>
     <div :class="{ dark: darkMode }">
         <div
-            class="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative"
+            class="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg"
         >
             <Sidebar
                 :is-open="isSidebarOpen"
                 :is-mobile="isMobile"
             />
 
-            <div class="flex-1 flex flex-col overflow-x-hidden">
+            <div class="flex-1 flex flex-col overflow-x-hidden transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
                 <header
-                    class="flex items-center justify-between bg-white dark:bg-gray-800 px-4 py-3 shadow z-30"
+                    class="flex items-center justify-between dark:bg-gray-800 px-4 py-3 shadow z-30 transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg"
                 >
                     <!-- Sidebar toggle -->
                     <button
@@ -108,7 +161,7 @@ const logout = () => {
                     </button>
 
                     <!-- Right side controls -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4 transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
                         <!-- User Dropdown with logout and roles below -->
                         <div class="relative" ref="dropdownRef">
                             <button

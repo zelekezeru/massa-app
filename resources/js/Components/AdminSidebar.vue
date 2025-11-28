@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, inject, ref } from "vue";
 
 // ✔ Correct Heroicons for each route group
 import {
@@ -30,15 +30,19 @@ const props = defineProps({
 });
 
 // Sidebar collapse logic
+const darkMode = inject('darkMode', ref(false));
+
 const wrapperClasses = computed(() => {
     if (props.isMobile) {
         return [
             "fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-800 shadow-md transition-transform duration-300",
+            darkMode && darkMode.value ? 'scrollbar-thumb-gray-600 scrollbar-track-gray-700' : 'scrollbar-thumb-gray-500 scrollbar-track-gray-200',
             props.isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64",
         ];
     }
     return [
         "bg-white dark:bg-gray-800 shadow-md transition-all duration-300 flex-shrink-0 h-full",
+        darkMode && darkMode.value ? 'scrollbar-thumb-gray-600 scrollbar-track-gray-700' : 'scrollbar-thumb-gray-500 scrollbar-track-gray-200',
         props.isOpen ? "w-64" : "w-14",
     ];
 });
@@ -82,7 +86,7 @@ const settingsNavLinks = [
 <template>
     <aside :class="wrapperClasses">
         <div
-            class="flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 py-2"
+            class="flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 py-2 transition shadow dark:bg-gray-800 hover:shadow-lg"
         >
             <!-- Logo + Dashboard -->
             <a
@@ -98,13 +102,14 @@ const settingsNavLinks = [
                 </span>
             </a>
 
-            <div class="space-y-2 text-md">
+            <div class="transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
 
                 <!-- PRODUCTION -->
                 <SidebarDropdownMenu
                     :label="$t('sidebar.productions')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="item in productionNavLinks"
@@ -122,6 +127,7 @@ const settingsNavLinks = [
                     :label="$t('sidebar.nursery')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="nursery in nurseryNavLinks"
@@ -139,6 +145,7 @@ const settingsNavLinks = [
                     :label="$t('sidebar.sales')"
                     :icon="ShoppingCartIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="sale in salesNavLinks"
@@ -156,6 +163,7 @@ const settingsNavLinks = [
                     :label="$t('sidebar.users')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="user in usersNavLinks"
@@ -173,6 +181,7 @@ const settingsNavLinks = [
                     :label="$t('sidebar.roles')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="role in rolesNavLinks"
@@ -190,6 +199,7 @@ const settingsNavLinks = [
                     :label="$t('sidebar.settings')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
+                    :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
                         v-for="setting in settingsNavLinks"

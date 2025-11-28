@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -12,6 +12,9 @@ const kpis = [
     { icon: 'fas fa-box', label: t('products_sold'), value: '3,400', color: 'warning' },
     { icon: 'fas fa-chart-line', label: t('growth_rate'), value: '12.5%', color: 'info' },
 ];
+
+// Theme from layout
+// const darkMode = inject('darkMode', ref(false));
 
 // Chart.js example
 let chartInstance = null;
@@ -55,26 +58,24 @@ onMounted(async () => {
     <Head title="Dashboard" />
 
     <AppLayout>
-        <div class="page-inner py-6 px-4 bg-light min-vh-100">
+        <div class="space-y-8">
             <!-- Page Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold text-success mb-0">{{ t('dashboard') }}</h2>
+                <h2 class="mb-2 text-3xl font-bold text-gray-800 dark:text-white">{{ t('dashboard') }}</h2>
                 <button class="btn btn-success shadow-sm d-none d-md-inline-flex">
                     <i class="fas fa-plus me-2"></i> {{ t('new_report') }}
                 </button>
             </div>
-
             <!-- KPI Cards -->
             <div class="row g-4 mb-5">
-                <div v-for="kpi in kpis" :key="kpi.label" class="col-12 col-sm-6 col-lg-3">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body d-flex align-items-center">
-                            <div :class="`icon-lg rounded-circle bg-${kpi.color} bg-opacity-10 text-${kpi.color} me-3`" style="font-size:2rem;">
-                                <i :class="kpi.icon"></i>
-                            </div>
+                <div v-for="kpi in kpis" :key="kpi.label" class="col-12 col-sm-6 col-lg-3 ">
+                <!-- <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"> -->
+                    <div class="p-6 transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
+                        <div class="flex items-center space-x-4">
+                            <AcademicCapIcon class="w-8 h-8 text-blue-500" />
                             <div>
-                                <div class="text-muted small">{{ kpi.label }}</div>
-                                <div class="fw-bold fs-5">{{ kpi.value }}</div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ kpi.label }}</p>
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">{{ kpi.value }}</h2>
                             </div>
                         </div>
                     </div>
@@ -84,8 +85,8 @@ onMounted(async () => {
             <!-- Charts Section -->
             <div class="row g-4">
                 <div class="col-12 col-lg-8">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-white border-0 pb-0">
+                    <div class="transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
+                        <div class="transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
                             <h5 class="card-title text-success mb-0">{{ t('sales_trend') }}</h5>
                         </div>
                         <div class="card-body">
@@ -93,35 +94,67 @@ onMounted(async () => {
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4">
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body">
-                            <h6 class="text-muted">{{ t('quick_stats') }}</h6>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ t('new_orders') }} <span class="badge bg-success rounded-pill">34</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ t('pending_deliveries') }} <span class="badge bg-warning rounded-pill">7</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ t('support_tickets') }} <span class="badge bg-info rounded-pill">3</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <h6 class="text-muted mb-2">{{ t('notifications') }}</h6>
-                            <div class="alert alert-success mb-2 py-2 px-3">
-                                <i class="fas fa-check-circle me-2"></i> {{ t('sales_target_reached') }}
-                            </div>
-                            <div class="alert alert-warning mb-0 py-2 px-3">
-                                <i class="fas fa-exclamation-triangle me-2"></i> {{ t('low_stock') }}
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-12 col-lg-4 space-y-4">
+
+                <!-- Quick Stats Card -->
+                <div class="rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 dark:bg-gray-800 p-5 border border-gray-100 dark:border-gray-700">
+                    <h6 class="text-center text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-wide">
+                        {{ t('quick_stats') }}
+                    </h6>
+
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="py-2 flex justify-between items-center text-gray-600 dark:text-gray-300 text-sm">
+                            <span class="font-medium flex items-center gap-2">
+                                <i class="fas fa-basket-shopping text-emerald-500"></i>
+                                {{ t('new_orders') }}
+                            </span>
+                            <span class="px-3 py-1 bg-emerald-500 text-white rounded-full shadow text-xs">34</span>
+                        </li>
+
+                        <li class="py-2 flex justify-between items-center text-gray-600 dark:text-gray-300 text-sm">
+                            <span class="font-medium flex items-center gap-2">
+                                <i class="fas fa-truck-loading text-yellow-500"></i>
+                                {{ t('pending_deliveries') }}
+                            </span>
+                            <span class="px-3 py-1 bg-yellow-400 text-gray-900 rounded-full shadow text-xs">7</span>
+                        </li>
+
+                        <li class="py-2 flex justify-between items-center text-gray-600 dark:text-gray-300 text-sm">
+                            <span class="font-medium flex items-center gap-2">
+                                <i class="fas fa-headset text-blue-500"></i>
+                                {{ t('support_tickets') }}
+                            </span>
+                            <span class="px-3 py-1 bg-blue-500 text-white rounded-full shadow text-xs">3</span>
+                        </li>
+                    </ul>
                 </div>
+
+                <!-- Notifications Card -->
+                <div class="rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 dark:bg-gray-800 p-6 border border-gray-100 dark:border-gray-700">
+                    <h6 class="text-center text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 tracking-wide">
+                        {{ t('notifications') }}
+                    </h6>
+
+                    <ul class="space-y-2">
+                        <!-- Success Notification -->
+                        <li class="dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
+                            <div class="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-gray-900 border border-emerald-200 dark:border-gray-700 rounded-xl shadow">
+                                <i class="fas fa-check-circle text-emerald-600 text-lg"></i>
+                                <span>{{ t('sales_target_reached') }}</span>
+                            </div>
+                        </li>
+
+                        <!-- Warning Notification -->
+                        <li class="dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
+                            <div class="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-gray-900 border border-yellow-300 dark:border-gray-700 rounded-xl shadow">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 text-lg"></i>
+                                <span>{{ t('low_stock') }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             </div>
         </div>
     </AppLayout>

@@ -21,14 +21,15 @@ use App\Http\Controllers\NurseryController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CropCategoryController;
+use App\Http\Controllers\SeedlingController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Foundation\Application;
-use Spatie\Permission\Middlewares\RoleMiddleware;
-use Spatie\Permission\Middlewares\PermissionMiddleware;
-use App\Http\Middleware;
-
-use Http\Middleware\CompanyMiddleware;
+use App\Http\Middleware\CompanyMiddleware;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\SeedController;
 use App\Models\Company;
 
 require __DIR__.'/auth.php';
@@ -86,25 +87,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('sales-locations', SalesLocationController::class);
     Route::resource('sales-agents', SalesAgentController::class);
-    Route::resource('productions', ProductionController::class);
     Route::resource('nurseries', NurseryController::class);
     Route::resource('crops', CropController::class);
-    Route::resource('employees', EmployeeController::class);
     Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('permissions', PermissionController::class);
+    Route::resource('suppliers', SupplierController::class);
+    Route::resource('crop-categories', CropCategoryController::class);
+    Route::resource('seeds', SeedController::class);
 
     // Role/Permission assignment routes (optional, example)
     Route::get('/roles/{role}/permissions', [RoleController::class, 'assign'])->middleware('can:assign-permissions-roles')->name('roles.permissions');
     Route::put('/roles/{role}/permissions', [RoleController::class, 'attach'])->middleware('can:attach-permissions-roles')->name('roles.attach');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'detach'])->middleware('can:detach-permissions-roles')->name('roles.detach');
 });
-
-Route::middleware(['auth', 'verified', 'company'])->group(function () {
-    Route::resource('seeds', App\Http\Controllers\SeedController::class);
-});
-
-// Language switcher
 Route::post('/language/switch', function () {
     $lang = request('lang');
     session(['locale' => $lang]);

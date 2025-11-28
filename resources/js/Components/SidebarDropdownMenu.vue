@@ -51,10 +51,8 @@ const afterLeave = (el) => {
                 'bg-green-200 dark:bg-green-800 border-l-4 border-green-600 shadow-sm':
                     isOpen,
             }"
-            class="w-full flex items-center justify-between px-4 py-3 
-                   rounded-xl text-base font-medium transition-all duration-150
-                   bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700
-                   shadow-sm border border-gray-200 dark:border-gray-700"
+            class="transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg
+                w-full flex items-center justify-between px-4 py-3 focus:outline-none"
         >
             <!-- ICON + LABEL -->
             <div class="flex items-center">
@@ -90,10 +88,10 @@ const afterLeave = (el) => {
             @after-leave="afterLeave"
         >
             <div
-                v-if="isOpen && sidebarVisible"
-                class="ml-10 mr-3 mt-2 p-3 rounded-xl 
-                       bg-gray-50 dark:bg-gray-800/70 
-                       text-sm shadow-inner space-y-2 border border-gray-200 dark:border-gray-700"
+                  v-if="isOpen && sidebarVisible"
+                  class="ml-10 mr-3 mt-2 p-3 rounded-xl 
+                      bg-gray-50 dark:bg-gray-800/70 
+                      text-sm text-gray-700 dark:text-gray-200 shadow-inner space-y-2 border border-gray-200 dark:border-gray-700"
             >
                 <slot />
             </div>

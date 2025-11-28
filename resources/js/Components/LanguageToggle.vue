@@ -42,14 +42,9 @@ const changeLocale = (lang) => {
 const languages = {
     en: "English",
     am: "አማርኛ",
-    zh: "中文",
-    ur: "Urdu - اردو",
-    sw: "Kiswahili",
-    ar: "Arabic - العربية",
-    es: "Español",
-    fr: "Français",
-    om: "Afaan Oromoo",
+    om: "Afaan Oromo",
     ti: "ትግርኛ",
+    sw: "Kiswahili",
 };
 
 const languageName = (lang) => {
@@ -95,7 +90,7 @@ onBeforeUnmount(() => {
         >
             <div
                 v-if="dropdownOpen"
-                class="absolute right-0 z-20 w-40 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 dark:divide-gray-700"
+                class="absolute right-0 z-20 w-40 mt-2 origin-top-right border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 dark:divide-gray-700"
             >
                 <div class="py-1">
                     <button

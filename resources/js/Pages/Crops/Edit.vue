@@ -3,6 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import CropForm from './form.vue';
 import { Head } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
+
+
 const props = defineProps({ crop: Object, cropCategories: Array });
 </script>
 
