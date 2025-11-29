@@ -9,8 +9,16 @@ class CustomerType extends Model
     protected $fillable = [
         'name',
         'description',
-        'company_id',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
 
     public function customers()
     {

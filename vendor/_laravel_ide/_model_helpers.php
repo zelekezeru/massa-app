@@ -14,6 +14,8 @@ namespace App\Models {
      * @property mixed $sales_agent_id
      * @property mixed $sale_id
      * @property int $id
+     * @property-read \App\Models\SalesAgent $salesAgent
+     * @property-read \App\Models\Sale $sale
      * @method static \Illuminate\Database\Eloquent\Builder<Commission>|Commission whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Commission>|Commission whereSaleId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Commission>|Commission whereSalesAgentId($value)
@@ -1000,8 +1002,8 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property integer $company_id
-     * @property integer $crop_categories_id
+     * @property mixed $company_id
+     * @property mixed $crop_categories_id
      * @property string|null $description
      * @property string|null $variety
      * @property string $name
@@ -2291,8 +2293,8 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property integer $company_id
-     * @property integer $user_id
+     * @property mixed $company_id
+     * @property mixed $user_id
      * @property string|null $description
      * @property string|null $location
      * @property string $name
@@ -2934,10 +2936,10 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property integer $company_id
-     * @property integer $product_id
-     * @property integer $seed_id
-     * @property integer $farm_id
+     * @property mixed $company_id
+     * @property mixed $product_id
+     * @property mixed $seed_id
+     * @property mixed $farm_id
      * @property string $status
      * @property string|null $harvestDate
      * @property string $plantationDate
@@ -4877,6 +4879,7 @@ namespace App\Models {
     /**
      * App\Models\SalesItem
      *
+     * @property-read \App\Models\SalesLocation $salesLocation
      * @method static \Illuminate\Database\Eloquent\Builder<SalesItem>|SalesItem newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<SalesItem>|SalesItem newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<SalesItem>|SalesItem query()

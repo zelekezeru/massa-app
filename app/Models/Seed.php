@@ -13,14 +13,16 @@ class Seed extends Model
         'supplier_id',
         'seed_categories_id',
         'farm_id',
-        'company_id',
     ];
 
-    protected $casts = [
-        'seed_categories_id' => 'integer',
-        'company_id' => 'integer',
-        'farm_id' => 'integer',
-    ];
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
 
     public function seedCategory()
     {

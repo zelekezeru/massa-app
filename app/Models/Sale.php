@@ -19,8 +19,16 @@ class Sale extends Model {
         'total',
         'balance_due',
         'notes',
-        'company_id',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
 
     public function customer()
     { 

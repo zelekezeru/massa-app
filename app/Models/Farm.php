@@ -14,10 +14,14 @@ class Farm extends Model
         'company_id',
     ];
 
-    protected $casts = [
-        'user_id' => 'integer',
-        'company_id' => 'integer',
-    ];
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
 
     public function user()
     {

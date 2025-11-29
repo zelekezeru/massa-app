@@ -37,6 +37,8 @@ class CropCategoryController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        $validated['company_id'] = auth()->user()?->company_id;
+
         $category = CropCategory::create($validated);
 
         return redirect()->route('crops.index')->with('success', 'Crop category created successfully.');

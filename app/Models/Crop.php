@@ -11,15 +11,17 @@ class Crop extends Model
         'variety',
         'description',
         'crop_categories_id',
-        'company_id',
         'farm_id',
     ];
 
-    protected $casts = [
-        'crop_categories_id' => 'integer',
-        'company_id' => 'integer',
-        'farm_id' => 'integer',
-    ];
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
 
     public function cropCategory()
     {

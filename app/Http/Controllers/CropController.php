@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crop;
+use App\Models\CropCategory;
 use Illuminate\Http\Request;
 
 class CropController extends Controller
@@ -13,7 +14,10 @@ class CropController extends Controller
     public function index()
     {
         $crops = Crop::with('cropCategory', 'company')->get();
-        return inertia('Crops/Index', compact('crops'));
+
+        $cropCategories = CropCategory::all();
+
+        return inertia('Crops/Index', compact('crops', 'cropCategories'));
     }
 
     /**
@@ -34,7 +38,6 @@ class CropController extends Controller
             'variety' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'crop_categories_id' => 'nullable|exists:crop_categories,id',
-            'company_id' => 'required|exists:companies,id',
         ]);
         $crop = Crop::create($validated);
         return redirect()->route('crops.index')->with('success', 'Crop created successfully.');
@@ -68,7 +71,6 @@ class CropController extends Controller
             'variety' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'crop_categories_id' => 'nullable|exists:crop_categories,id',
-            'company_id' => 'required|exists:companies,id',
         ]);
         $crop->update($validated);
         return redirect()->route('crops.index')->with('success', 'Crop updated successfully.');

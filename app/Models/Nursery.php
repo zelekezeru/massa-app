@@ -16,14 +16,17 @@ class Nursery extends Model
         'seed_id',
         'farm_id',
         'product_id',
-        'company_id',
     ];
-    protected $casts = [
-        'seed_id' => 'integer',
-        'farm_id' => 'integer',
-        'product_id' => 'integer',
-        'company_id' => 'integer',
-    ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
+            }
+        });
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);

@@ -54,9 +54,9 @@ class User extends Authenticatable
 
     protected static function booted()
     {
-        static::addGlobalScope('company', function (Builder $builder) {
-            if (app()->bound('company_id')) {
-                $builder->where('company_id', app('company_id'));
+        static::creating(function ($model) {
+            if (auth()->check() && empty($model->company_id)) {
+                $model->company_id = auth()->user()->company_id;
             }
         });
     }
