@@ -12,7 +12,8 @@ return new class extends Migration {
       $table->string('address')->nullable();
       $table->string('city')->nullable();
       $table->string('state')->nullable();
-            $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
+      $table->string('gps_location')->nullable();
+      $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
       $table->timestamps();
     });
   }

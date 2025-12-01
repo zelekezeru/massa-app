@@ -22,22 +22,15 @@ class SalesController extends Controller
     public function index()
     {
         $sales = Sale::with(['customer', 'agent', 'items'])->orderByDesc('created_at')->get();
+
+        $salesLocations = SalesLocation::all();
+
+        $salesAgents = SalesAgent::with('user')->get();
+
         return Inertia::render('Sales/Index', [
-            'sales' => $sales
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $agents = SalesAgent::with(['salesLocation', 'user'])->get();
-
-        return Inertia::render('Sales/Create', [
-            'customers' => Customer::all(),
-            'products' => Product::all(),
-            'agents' => $agents,
+            'sales' => $sales,
+            'salesLocations' => $salesLocations,
+            'salesAgents' => $salesAgents
         ]);
     }
 
@@ -96,31 +89,6 @@ class SalesController extends Controller
 
             throw $e;
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sales $sales)
-    {
-        return Inertia::render('Sales/Show', [
-            'sale' => $sales->load(['customer', 'agent', 'items'])
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sales $sales)
-    {
-        $agents = SalesAgent::with(['salesLocation', 'user'])->get();
-
-        return Inertia::render('Sales/Edit', [
-            'sale' => $sales->load(['items', 'customer', 'agent']),
-            'customers' => Customer::all(),
-            'products' => Product::all(),
-            'agents' => $agents,
-        ]);
     }
 
     /**

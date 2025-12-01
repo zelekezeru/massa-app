@@ -9,9 +9,9 @@ class Farm extends Model
     protected $fillable = [
         'name',
         'location',
+        'size',
         'description',
-        'user_id',
-        'company_id',
+        'gps_location',
     ];
 
     protected static function booted()

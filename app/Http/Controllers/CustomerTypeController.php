@@ -14,17 +14,16 @@ class CustomerTypeController extends Controller
     public function index()
     {
         $customerTypes = CustomerType::all();
-        return Inertia::render('CustomerTypes/Index', [
-            'customerTypes' => $customerTypes,
-        ]);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('CustomerTypes/Create');
+        $customers = Customer::all();
+
+        $SalesLocation = Customer::all();
+
+        return Inertia::render('Customers/Index', [
+            'customerTypes' => $customerTypes,
+            'customers' => $customers,
+            'salesLocations' => $SalesLocation,
+        ]);
     }
 
     /**
@@ -38,26 +37,6 @@ class CustomerTypeController extends Controller
         ]);
         $customerType = CustomerType::create($validated);
         return redirect()->route('customers.index')->with('success', 'Customer type created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(CustomerType $customerType)
-    {
-        return Inertia::render('CustomerTypes/Show', [
-            'customerType' => $customerType,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CustomerType $customerType)
-    {
-        return Inertia::render('CustomerTypes/Edit', [
-            'customerType' => $customerType,
-        ]);
     }
 
     /**
@@ -79,6 +58,6 @@ class CustomerTypeController extends Controller
     public function destroy(CustomerType $customerType)
     {
         $customerType->delete();
-        return redirect()->route('customer-types.index')->with('success', 'Customer type deleted successfully.');
+        return redirect()->route('customers.index')->with('success', 'Customer type deleted successfully.');
     }
 }

@@ -11,6 +11,7 @@ class SalesLocation extends Model
         'address',
         'city',
         'state',
+        'gps_location',
     ];
 
     protected static function booted()

@@ -48,9 +48,9 @@ const wrapperClasses = computed(() => {
 });
 
 // ✔ Correct Icons Assigned
-const productionNavLinks = [
+const farmNavLinks = [
+    { route: 'farms.index', icon: BuildingOffice2Icon, label: 'sidebar.farms' },
     { route: 'products.index', icon: CubeIcon, label: 'sidebar.products' },
-    { route: 'productions.index', icon: BuildingOffice2Icon, label: 'sidebar.productions' },
 ];
 
 const nurseryNavLinks = [
@@ -60,9 +60,7 @@ const nurseryNavLinks = [
 
 const salesNavLinks = [
     { route: 'customers.index', icon: UsersIcon, label: 'sidebar.customers' },
-    { route: 'sales-agents.index', icon: UserPlusIcon, label: 'sidebar.sales_agents' },
     { route: 'sales.index', icon: CurrencyDollarIcon, label: 'sidebar.sales' },
-    { route: 'sales-locations.index', icon: MapPinIcon, label: 'sidebar.sales_locations' },
 ];
 
 const usersNavLinks = [
@@ -104,15 +102,15 @@ const settingsNavLinks = [
 
             <div class="transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg">
 
-                <!-- PRODUCTION -->
+                <!-- FARM -->
                 <SidebarDropdownMenu
-                    :label="$t('sidebar.productions')"
+                    :label="$t('sidebar.farms_products')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
                     :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
                 >
                     <SidebarItem
-                        v-for="item in productionNavLinks"
+                        v-for="item in farmNavLinks"
                         :key="item.route"
                         :icon="item.icon"
                         :label="$t(item.label)"
@@ -124,7 +122,7 @@ const settingsNavLinks = [
 
                 <!-- NURSERY -->
                 <SidebarDropdownMenu
-                    :label="$t('sidebar.nursery')"
+                    :label="$t('sidebar.crop_nursery')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
                     :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
@@ -142,7 +140,7 @@ const settingsNavLinks = [
 
                 <!-- SALES -->
                 <SidebarDropdownMenu
-                    :label="$t('sidebar.sales')"
+                    :label="$t('sidebar.customer_sales')"
                     :icon="ShoppingCartIcon"
                     :sidebar-visible="isOpen"
                     :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"
@@ -160,7 +158,7 @@ const settingsNavLinks = [
 
                 <!-- USERS -->
                 <SidebarDropdownMenu
-                    :label="$t('sidebar.users')"
+                    :label="$t('sidebar.users_employees')"
                     :icon="Cog6ToothIcon"
                     :sidebar-visible="isOpen"
                     :class="'transition shadow dark:bg-gray-800 rounded-xl hover:shadow-lg mb-4 '"

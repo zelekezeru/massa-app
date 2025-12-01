@@ -20,9 +20,12 @@ class CustomerController extends Controller
 
         $customerTypes = CustomerType::all();
 
+        $salesLocations = SalesLocation::all();
+
         return Inertia::render('Customers/Index', [
             'customers' => $customers,
-            'customerTypes' => $customerTypes
+            'customerTypes' => $customerTypes,
+            'salesLocations' => $salesLocations
         ]);
     }
 
@@ -49,9 +52,13 @@ class CustomerController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:customers,email',
+            'contact_person' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:50',
-            // Add more fields as needed
+            'email' => 'nullable|email|unique:customers,email',
+            'address' => 'nullable|string|max:255',
+            'customer_type' => 'required|exists:customer_types,id',
+            'credit_limit' => 'nullable|numeric|min:0',
+            'sales_location_id' => 'required|exists:sales_locations,id',
         ]);
         $customer = Customer::create($data);
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
@@ -91,9 +98,13 @@ class CustomerController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'contact_person' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:50',
-            // Add more fields as needed
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'address' => 'nullable|string|max:255',
+            'customer_type' => 'required|exists:customer_types,id',
+            'credit_limit' => 'nullable|numeric|min:0',
+            'sales_location_id' => 'required|exists:sales_locations,id',
         ]);
         $customer->update($data);
         return redirect()->route('customers.show', $customer)->with('success', 'Customer updated successfully.');

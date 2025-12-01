@@ -366,6 +366,8 @@ namespace App\Models {
      * @property-read int|null $sales_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
      * @property-read int|null $products_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Farm> $farms
+     * @property-read int|null $farms_count
      * @method static \Illuminate\Database\Eloquent\Builder<Company>|Company whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Company>|Company whereName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Company>|Company whereEmail($value)
@@ -2294,8 +2296,10 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property mixed $company_id
-     * @property mixed $user_id
+     * @property string|null $image
+     * @property string|null $gps_location
      * @property string|null $description
+     * @property mixed $size
      * @property string|null $location
      * @property string $name
      * @property int $id
@@ -2304,8 +2308,10 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereLocation($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereSize($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereUserId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereGpsLocation($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereImage($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereCompanyId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Farm>|Farm whereUpdatedAt($value)
@@ -5186,6 +5192,7 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property mixed $company_id
+     * @property string|null $gps_location
      * @property string|null $state
      * @property string|null $city
      * @property string|null $address
@@ -5203,6 +5210,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereAddress($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereCity($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereState($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereGpsLocation($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereCompanyId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<SalesLocation>|SalesLocation whereUpdatedAt($value)

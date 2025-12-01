@@ -19,20 +19,8 @@ class SalesAgentController extends Controller
     {
         $salesAgents = SalesAgent::with(['salesLocation', 'user'])->get();
         
-        return Inertia::render('SalesAgents/Index', [
+        return Inertia::render('Sales/Index', [
             'salesAgents' => $salesAgents,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $salesLocations = SalesLocation::all();
-
-        return Inertia::render('SalesAgents/Create', [
-            'salesLocations' => $salesLocations,
         ]);
     }
 
@@ -57,32 +45,7 @@ class SalesAgentController extends Controller
 
         $salesAgent = SalesAgent::create($validated);
 
-        return redirect()->route('sales-agents.index')->with('success', 'Sales agent created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SalesAgent $salesAgent)
-    {
-        $salesAgent->load(['salesLocation', 'user']);
-        
-        return Inertia::render('SalesAgents/Show', [
-            'salesAgent' => $salesAgent,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SalesAgent $salesAgent)
-    {
-        $salesLocations = SalesLocation::all();
-        
-        return Inertia::render('SalesAgents/Edit', [
-            'salesAgent' => $salesAgent,
-            'salesLocations' => $salesLocations,
-        ]);
+        return redirect()->route('sales.index')->with('success', 'Sales agent created successfully.');
     }
 
     /**
@@ -100,7 +63,7 @@ class SalesAgentController extends Controller
         ]);
 
         $salesAgent->update($validated);
-        return redirect()->route('sales-agents.index')->with('success', 'Sales agent updated successfully.');
+        return redirect()->route('sales.index')->with('success', 'Sales agent updated successfully.');
     }
 
     /**
@@ -109,6 +72,6 @@ class SalesAgentController extends Controller
     public function destroy(SalesAgent $salesAgent)
     {
         $salesAgent->delete();
-        return redirect()->route('sales-agents.index')->with('success', 'Sales agent deleted successfully.');
+        return redirect()->route('sales.index')->with('success', 'Sales agent deleted successfully.');
     }
 }

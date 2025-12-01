@@ -16,7 +16,6 @@ use App\Http\Controllers\SalesAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\NurseryController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\EmployeeController;
@@ -30,6 +29,7 @@ use App\Http\Middleware\CompanyMiddleware;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\SeedController;
+use App\Http\Controllers\FarmController;  
 use App\Models\Company;
 
 require __DIR__.'/auth.php';
@@ -93,6 +93,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('suppliers', SupplierController::class);
     Route::resource('crop-categories', CropCategoryController::class);
     Route::resource('seeds', SeedController::class);
+    Route::resource('seedlings', SeedlingController::class);
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('farms', FarmController::class);
 
     // Role/Permission assignment routes (optional, example)
     Route::get('/roles/{role}/permissions', [RoleController::class, 'assign'])->middleware('can:assign-permissions-roles')->name('roles.permissions');

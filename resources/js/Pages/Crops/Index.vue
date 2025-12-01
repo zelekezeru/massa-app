@@ -3,10 +3,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ref, defineProps } from 'vue';
 import { Squares2X2Icon, ClipboardDocumentListIcon } from '@heroicons/vue/24/outline';
-import ShowCropCategories from './Tabs/ShowCropCategories.vue';
-import ShowCrops from './Tabs/ShowCrops.vue';
+import ShowCropCategories from './CropCategories.vue';
+import ShowCrops from './Crops.vue';
 
-const props = defineProps({ crops: Array, cropCategories: Array });
+const props = defineProps({ crops: Array, cropCategories: Array, farms: Array });
 
 const selectedTab = ref('crops');
 const tabs = [
@@ -43,7 +43,7 @@ const tabs = [
     >
       <div :key="selectedTab">
         <template v-if="selectedTab === 'crops'">
-          <ShowCrops :crops="crops" :cropCategories="cropCategories" />
+          <ShowCrops :crops="crops" :cropCategories="cropCategories" :farms="farms" />
         </template>
           
         <template v-else-if="selectedTab === 'categories'">

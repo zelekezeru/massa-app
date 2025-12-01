@@ -17,15 +17,9 @@ class CropController extends Controller
 
         $cropCategories = CropCategory::all();
 
-        return inertia('Crops/Index', compact('crops', 'cropCategories'));
-    }
+        $farms = auth()->user()->company->farms;    
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Crops/Create');
+        return inertia('Crops/Index', compact('crops', 'cropCategories', 'farms'));
     }
 
     /**
@@ -41,24 +35,6 @@ class CropController extends Controller
         ]);
         $crop = Crop::create($validated);
         return redirect()->route('crops.index')->with('success', 'Crop created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Crop $crop)
-    {
-        $crop->load('cropCategory', 'company');
-        return inertia('Crops/Show', compact('crop'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Crop $crop)
-    {
-        $crop->load('cropCategory', 'company');
-        return inertia('Crops/Edit', compact('crop'));
     }
 
     /**

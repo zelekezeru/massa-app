@@ -12,16 +12,8 @@ class FarmController extends Controller
      */
     public function index()
     {
-        $farms = Farm::all();
+        $farms = auth()->user()->company->farms;
         return inertia('Farms/Index', compact('farms'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Farms/Create');
     }
 
     /**
@@ -32,27 +24,19 @@ class FarmController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
             'size' => 'nullable|numeric',
-            'company_id' => 'required|exists:companies,id',
+            'gps_location' => 'nullable|string|max:255',
         ]);
+        
         $farm = Farm::create($validated);
+
+        // Image upload handling
+        if ($request->hasFile('image')) {
+            imageUpload($farm);
+        }
+
         return redirect()->route('farms.index')->with('success', 'Farm created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Farm $farm)
-    {
-        return inertia('Farms/Show', compact('farm'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Farm $farm)
-    {
-        return inertia('Farms/Edit', compact('farm'));
     }
 
     /**
@@ -63,10 +47,16 @@ class FarmController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
             'size' => 'nullable|numeric',
-            'company_id' => 'required|exists:companies,id',
+            'gps_location' => 'nullable|string|max:255',
         ]);
         $farm->update($validated);
+
+        // Image upload handling
+        if ($request->hasFile('image')) {
+            imageUpload($farm);
+        }
         return redirect()->route('farms.index')->with('success', 'Farm updated successfully.');
     }
 
@@ -77,5 +67,17 @@ class FarmController extends Controller
     {
         $farm->delete();
         return redirect()->route('farms.index')->with('success', 'Farm deleted successfully.');
+    }
+
+    // Image Upload method
+    public function imageUpload($farm)
+    {
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('farm_images', 'public');
+            $farm->image = $path;
+            $farm->save();
+        }
+
+        return $farm;
     }
 }

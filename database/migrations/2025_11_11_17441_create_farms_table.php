@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('location')->nullable();
+            $table->decimal('size', 10, 8)->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('gps_location')->nullable();
+            $table->string('image')->nullable();
             $table->foreignId('company_id')->constrained('companies')->default(auth()->user()?->company_id);
             $table->timestamps();
         });

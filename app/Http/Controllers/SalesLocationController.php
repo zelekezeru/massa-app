@@ -14,17 +14,9 @@ class SalesLocationController extends Controller
     public function index()
     {
         $salesLocations = SalesLocation::all();
-        return Inertia::render('SalesLocations/Index', [
+        return Inertia::render('Sales/Index', [
             'salesLocations' => $salesLocations,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('SalesLocations/Create');
     }
 
     /**
@@ -37,29 +29,10 @@ class SalesLocationController extends Controller
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
+            'gps_location' => 'nullable|string|max:255',
         ]);
         $salesLocation = SalesLocation::create($validated);
-        return redirect()->route('sales-locations.index')->with('success', 'Sales location created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SalesLocation $salesLocation)
-    {
-        return Inertia::render('SalesLocations/Show', [
-            'salesLocation' => $salesLocation,
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SalesLocation $salesLocation)
-    {
-        return Inertia::render('SalesLocations/Edit', [
-            'salesLocation' => $salesLocation,
-        ]);
+        return redirect()->route('sales.index')->with('success', 'Sales location created successfully.');
     }
 
     /**
@@ -72,10 +45,10 @@ class SalesLocationController extends Controller
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
-            'zip' => 'nullable|string|max:20',
+            'gps_location' => 'nullable|string|max:255',
         ]);
         $salesLocation->update($validated);
-        return redirect()->route('sales-locations.index')->with('success', 'Sales location updated successfully.');
+        return redirect()->route('sales.index')->with('success', 'Sales location updated successfully.');
     }
 
     /**
@@ -84,6 +57,6 @@ class SalesLocationController extends Controller
     public function destroy(SalesLocation $salesLocation)
     {
         $salesLocation->delete();
-        return redirect()->route('sales-locations.index')->with('success', 'Sales location deleted successfully.');
+        return redirect()->route('sales.index')->with('success', 'Sales location deleted successfully.');
     }
 }

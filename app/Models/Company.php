@@ -34,5 +34,6 @@ class Company extends Model
     public function salesLocations()   { return $this->hasMany(SalesLocation::class); }
     public function sales()            { return $this->hasMany(Sale::class); }
     public function products()         { return $this->hasMany(Product::class); }
+    public function farms()            { return $this->hasMany(Farm::class); }
 
 }
